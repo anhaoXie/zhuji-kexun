@@ -263,6 +263,7 @@ python prepare_bokchoy.py    # 按原图基名分组，重划 70/15/15，避免�
 | [10 团队与分工](docs/10-team-and-roles.md) | 项目负责人与角色分工（脱敏） |
 | [11 边界与合规](docs/11-boundaries-and-compliance.md) | 不适用场景、安全约束、数据与伦理 |
 | [12 研发历程](docs/12-roadmap-and-history.md) | 里程碑、版本演进、后续计划 |
+| [13 选题与方向调研](docs/13-research-and-selection.md) | 五方向比较、证据分级、为什么选「一株一档」 |
 | [参考文献](docs/references.md) | 9 篇核心文献与数据集许可 |
 
 ## 9. 数据与模型口径
