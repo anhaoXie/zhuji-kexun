@@ -1,0 +1,292 @@
+/* pages/control/control.wxss —— Tab2 控制 */
+
+.control-page {
+  padding-bottom: 32rpx;
+}
+
+/* ---------------- 遥测 ---------------- */
+.telemetry {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 24rpx;
+}
+
+.telemetry-item {
+  flex: 1;
+  text-align: center;
+  border-right: 1rpx solid #EDEFF2;
+}
+
+.telemetry-item:last-child {
+  border-right: none;
+}
+
+.telemetry-label {
+  font-size: 20rpx;
+  color: #6B7280;
+}
+
+.telemetry-value {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #181818;
+  margin-top: 2rpx;
+}
+
+.telemetry-unit {
+  font-size: 20rpx;
+  font-weight: 400;
+  color: #6B7280;
+}
+
+/* ---------------- 分段控件 ---------------- */
+.segmented {
+  display: flex;
+  background: #F2F4F6;
+  border-radius: 16rpx;
+  padding: 6rpx;
+}
+
+.segmented-item {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: #6B7280;
+  border-radius: 12rpx;
+}
+
+.segmented-item.is-active {
+  background: #FFFFFF;
+  color: #07C160;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(16, 24, 40, 0.08);
+}
+
+.seg-note {
+  margin-top: 16rpx;
+  line-height: 1.5;
+}
+
+/* ---------------- 摇杆 ---------------- */
+.joystick-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 10rpx 0 6rpx;
+}
+
+.joystick-area {
+  position: relative;
+  width: 480rpx;
+  height: 480rpx;
+  border-radius: 50%;
+  background: #F4F7F5;
+  border: 2rpx dashed #D7E3DB;
+}
+
+.joystick-cross-h {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 1rpx;
+  background: #E4EBE7;
+}
+
+.joystick-cross-v {
+  position: absolute;
+  top: 8%;
+  bottom: 8%;
+  left: 50%;
+  width: 1rpx;
+  background: #E4EBE7;
+}
+
+.joystick-knob {
+  width: 168rpx;
+  height: 168rpx;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #12D873 0%, #07C160 100%);
+  box-shadow: 0 8rpx 22rpx rgba(7, 193, 96, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-knob-inner {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.78);
+}
+
+.joystick-lock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-lock text {
+  background: rgba(24, 24, 24, 0.72);
+  color: #FFFFFF;
+  font-size: 22rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 999rpx;
+}
+
+.readout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #5B6472;
+}
+
+.readout text {
+  margin: 0 18rpx;
+}
+
+/* ---------------- 速度滑杆 ---------------- */
+.speed-slider {
+  margin: 4rpx 8rpx 0;
+}
+
+.slider-scale {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20rpx;
+  color: #9AA1AB;
+  margin-top: 4rpx;
+  padding: 0 8rpx;
+}
+
+/* ---------------- 点动 ---------------- */
+.dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dpad-row {
+  display: flex;
+  align-items: center;
+  margin: 16rpx 0;
+}
+
+.dpad-btn {
+  width: 132rpx;
+  height: 72rpx;
+  border-radius: 16rpx;
+  background: #F2F4F6;
+  color: #5B6472;
+  font-size: 24rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dpad-row .dpad-btn {
+  margin: 0 8rpx;
+}
+
+.dpad-row .dpad-stop {
+  background: #E5484D;
+  color: #FFFFFF;
+  margin: 0 16rpx;
+}
+
+/* ---------------- 图传开关 ---------------- */
+.switch-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switch-left {
+  flex: 1;
+  min-width: 0;
+  padding-right: 20rpx;
+}
+
+.switch-note {
+  margin-top: 6rpx;
+}
+
+/* ---------------- 安全 ---------------- */
+.safety {
+  /* 安全卡：外观沿用全局 .card，此处仅作语义钩子 */
+}
+
+.safety-row {
+  display: flex;
+  align-items: center;
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  color: #3F4753;
+}
+
+.safety-dot {
+  flex: none;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #07C160;
+  margin-right: 14rpx;
+}
+
+.safety-note {
+  margin-top: 18rpx;
+  font-size: 22rpx;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+/* ---------------- BLE ---------------- */
+.ble-btn {
+  margin-top: 18rpx;
+  height: 76rpx;
+  font-size: 26rpx;
+}
+
+/* ---------------- 急停 ---------------- */
+.estop-btn {
+  height: 96rpx;
+  border-radius: 20rpx;
+  background: #E5484D;
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 700;
+  letter-spacing: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 24rpx rgba(229, 72, 77, 0.32);
+}
+
+.estop-btn.is-locked {
+  background: #7A2A2D;
+  letter-spacing: 1rpx;
+  box-shadow: none;
+}
+
+.estop-hover {
+  opacity: 0.88;
+}
+
+.estop-hint {
+  margin-top: 12rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #6B7280;
+}

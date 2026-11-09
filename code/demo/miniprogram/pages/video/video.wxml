@@ -1,0 +1,74 @@
+<!-- pages/video/video.wxml —— Tab3 图传 -->
+<view class="page video-page">
+
+  <!-- 标题卡 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">车端图传 · {{enabled ? '监看中' : '默认关闭'}}</view>
+      <view class="cam-src {{camLive ? 'on' : ''}}">{{camSource}}</view>
+      <view class="pill {{enabled ? 'pill-on' : ''}}" bindtap="onToggleVideo">{{enabled ? '关闭监看' : '开启监看'}}</view>
+    </view>
+    <view class="title-sub">识别在 K230 车端完成，不上传原始视频；本页为低码率监看，仅用于演示与远程接管。</view>
+  </view>
+
+  <!-- 16:9 视频区：静帧 + 检测框 + LIVE + 时间戳 + 云台信息 -->
+  <view class="stage">
+    <image class="stage-img" src="{{camUrl}}" mode="aspectFill" binderror="onCamError"></image>
+    <view class="stage-shade"></view>
+
+    <view class="live-badge">
+      <view class="live-dot"></view>
+      <text class="live-label">LIVE</text>
+      <text class="live-meta">{{liveText}}</text>
+    </view>
+    <view class="ts-badge num">{{clockText}}</view>
+
+    <view
+      class="det-box"
+      wx:for="{{boxes}}"
+      wx:key="key"
+      style="{{item.style}}"
+    >
+      <view class="det-label" style="{{item.labelStyle}}">{{item.label}} {{item.confText}}</view>
+      <view class="det-review" wx:if="{{item.review}}">待复核</view>
+    </view>
+
+    <view class="crosshair-h"></view>
+    <view class="crosshair-v"></view>
+
+    <view class="stage-bar">{{cameraName}} · 云台 俯仰 {{pitch}}° · 台位 {{plotLabel}} · 株 {{plantLabel}}</view>
+    <view class="stage-note" wx:if="{{camFallback}}">未连接服务端，使用本地演示静帧</view>
+  </view>
+
+  <!-- 操作条 -->
+  <view class="card ops">
+    <view
+      class="op"
+      wx:for="{{ops}}"
+      wx:key="key"
+      hover-class="op-hover"
+      data-label="{{item.label}}"
+      bindtap="onOpTap"
+    >
+      <view class="op-label">{{item.label}}</view>
+    </view>
+  </view>
+
+  <!-- 图传说明 -->
+  <view class="card">
+    <view class="card-title">图传说明</view>
+    <view class="note-row" wx:for="{{notes}}" wx:key="*this">
+      <view class="note-index num">{{index + 1}}</view>
+      <text class="note-text">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 真机接入前必读 -->
+  <view class="card warn-card">
+    <view class="card-title warn-title">真机接入前请确认</view>
+    <view class="warn-text">
+      live-player 需要「文娱-视频」等类目资质与已完成备案的 HTTPS 播放域名；当前版本只用 image 静帧叠加检测框做演示，
+      不依赖任何合法域名配置。
+    </view>
+  </view>
+</view>

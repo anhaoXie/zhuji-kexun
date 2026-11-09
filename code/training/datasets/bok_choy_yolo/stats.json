@@ -1,0 +1,30 @@
+{
+  "source_zip": "nguynhcan_bok-choy-disease-detection-yolo-format.zip",
+  "license": "CC BY 4.0 (Roboflow: bok-choy/bok-choy-disease-detection v2)",
+  "classes": [
+    "diseased",
+    "healthy"
+  ],
+  "images_total": 1965,
+  "base_groups": 480,
+  "original_split_leaked_groups": 331,
+  "resplit": {
+    "train": {
+      "images": 1402,
+      "groups": 336
+    },
+    "valid": {
+      "images": 286,
+      "groups": 72
+    },
+    "test": {
+      "images": 277,
+      "groups": 72
+    }
+  },
+  "boxes_by_class": {
+    "1": 1772,
+    "0": 1387
+  },
+  "note": "按原图基名分组重划，避免增强副本跨 split 泄漏；原 split 跨集组数见 original_split_leaked_groups。"
+}

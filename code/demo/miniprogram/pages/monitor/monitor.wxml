@@ -1,0 +1,109 @@
+<!-- pages/monitor/monitor.wxml —— Tab1 监控 -->
+<view class="page monitor-page">
+
+  <!-- 深绿 hero：棚号 / 模式 / 台位 / 电量 / 四个 chip -->
+  <view class="hero">
+    <view class="hero-main">
+      <view class="hero-left">
+        <view class="hero-eyebrow">{{greenhouse}} · {{modeText}}</view>
+        <view class="hero-title">
+          <text class="hero-title-label">台位</text>
+          <text class="hero-title-num num">{{stopIndex}}/{{plotTotal}}</text>
+        </view>
+        <view class="hero-sub">已检 {{plantsDone}}/{{plantsTotal}} 株 · {{etaLine}}</view>
+      </view>
+      <view class="hero-battery">
+        <view class="hero-battery-value num">{{battery}}<text class="hero-battery-unit">%</text></view>
+        <view class="battery-shell">
+          <view class="battery-core" style="width: {{batteryFillPct}}%;"></view>
+        </view>
+        <view class="hero-battery-sub">{{voltageText}} · 33 Wh</view>
+      </view>
+    </view>
+    <view class="chips">
+      <view class="chip" wx:for="{{chips}}" wx:key="label">
+        <text>{{item.label}}</text>
+        <text class="chip-value">{{item.value}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 本棚进度 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">本棚进度</view>
+      <view class="card-value num">{{progressPct}}%</view>
+    </view>
+    <view class="bar-track">
+      <view class="bar-fill" style="width: {{progressPct}}%;"></view>
+    </view>
+    <view class="progress-meta">
+      <text>{{plot}} · 第 {{stopIndex}}/{{plotTotal}} 台位</text>
+      <text class="num">{{plantsDone}}/{{plantsTotal}} 株</text>
+    </view>
+  </view>
+
+  <!-- 实时航线：canvas 画 4 床 × 4 台位、5 过道、S 形折返、当前车位置 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">实时航线</view>
+      <view class="tiny">4 床 × 4 台位 · 20 停靠位</view>
+    </view>
+    <view class="route-wrap">
+      <canvas type="2d" id="routeCanvas" class="route-canvas"></canvas>
+    </view>
+    <view class="legend">
+      <view class="legend-item">
+        <view class="legend-line legend-done"></view>
+        <text>已走</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-line legend-plan"></view>
+        <text>规划</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-dot"></view>
+        <text>当前</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近结果 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">最近结果</view>
+      <view class="tiny">最近 3 株</view>
+    </view>
+    <view class="result-row" wx:for="{{recent}}" wx:key="code">
+      <view class="result-main">
+        <view class="result-code">{{item.code}}</view>
+        <view class="result-sub">{{item.disease}} · {{item.time}}</view>
+      </view>
+      <view class="result-right">
+        <view class="tag tag-{{item.stateClass}}">{{item.state}}</view>
+        <view class="result-conf num">置信度 {{item.confText}}</view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{recent.length === 0}}">暂无检测结果</view>
+  </view>
+
+  <!-- 待复核入口：点击切到报表页复核区 -->
+  <view class="card review-card" hover-class="review-hover" bindtap="goReport">
+    <view class="review-left">
+      <view class="review-count"><text class="num">{{reviewCount}}</text> 株待复核</view>
+      <view class="tiny">低置信结果需现场确认或改判</view>
+    </view>
+    <view class="review-action">去处理 ›</view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="action-row">
+    <view class="btn btn-ghost flex1" hover-class="btn-hover" bindtap="onPause">暂停巡检</view>
+    <view class="btn btn-soft flex1 action-gap" hover-class="btn-hover" bindtap="onReturn">返航</view>
+  </view>
+
+  <view class="page-bottom-space"></view>
+
+  <!-- 悬浮急停：点击弹确认 -->
+  <view class="estop-fab" hover-class="estop-fab-hover" bindtap="onEstop">急停</view>
+</view>

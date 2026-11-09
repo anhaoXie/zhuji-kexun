@@ -1,0 +1,49 @@
+# ---- OS / editor ----
+Thumbs.db
+Desktop.ini
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# ---- Node ----
+node_modules/
+npm-debug.log*
+.pnpm-store/
+
+# ---- Ultralytics / training outputs ----
+runs/
+*.pt
+*.onnx
+*.engine
+*.pth
+
+# ---- local runtime / captures ----
+*.log
+*.tmp
+.tmp/
+temp/
+shots/_*
+shots_pc/_*
+_frames/
+
+# ---- secrets ----
+.env
+.env.*
+secrets.json
+
+# ---- archives ----
+*.zip
+*.7z
+*.rar

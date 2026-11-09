@@ -1,0 +1,255 @@
+/* app.wxss —— 全局样式
+ * 视觉规范见 ../docs/BUILD_SPEC.md 第 2 节：
+ * 背景 #F4F5F7、白卡片 #FFFFFF、微信绿 #07C160、深绿 hero #0E3B2E→#145C43、
+ * 主文字 #181818、次文字 #6B7280、分割线 #EDEFF2、危险 #E5484D、警示 #F5A524、信息蓝 #2F6BFF。
+ * 尺寸统一用 rpx（750rpx = 屏幕宽度），390×844 视口下 1px ≈ 1.92rpx。
+ */
+
+page {
+  background: #F4F5F7;
+  color: #181818;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.45;
+}
+
+view,
+text,
+image,
+canvas {
+  box-sizing: border-box;
+}
+
+.page {
+  padding: 24rpx 24rpx 48rpx;
+  min-height: 100vh;
+}
+
+/* ---------------- 卡片 ---------------- */
+.card {
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(16, 24, 40, 0.06);
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #181818;
+}
+
+.card-title-sm {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #181818;
+}
+
+.card-value {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #07C160;
+}
+
+.card-sub {
+  font-size: 24rpx;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+/* ---------------- 文字 --------------- */
+.muted {
+  color: #6B7280;
+}
+
+.tiny {
+  font-size: 22rpx;
+  color: #6B7280;
+}
+
+.num {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+.strong {
+  font-weight: 600;
+}
+
+/* ---------------- 布局 ---------------- */
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.divider {
+  height: 1rpx;
+  background: #EDEFF2;
+  margin: 20rpx 0;
+}
+
+/* ---------------- 进度条 ---------------- */
+.bar-track {
+  height: 16rpx;
+  border-radius: 999rpx;
+  background: #EDEFF2;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  background: #07C160;
+  transition: width 300ms ease;
+}
+
+/* ---------------- 标签 ---------------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.tag-new {
+  color: #E5484D;
+  background: rgba(229, 72, 77, 0.1);
+}
+
+.tag-ongoing {
+  color: #2F6BFF;
+  background: rgba(47, 107, 255, 0.1);
+}
+
+.tag-worse {
+  color: #D98200;
+  background: rgba(245, 165, 36, 0.14);
+}
+
+.tag-better {
+  color: #07C160;
+  background: rgba(7, 193, 96, 0.1);
+}
+
+.tag-handled {
+  color: #6B7280;
+  background: rgba(138, 143, 153, 0.14);
+}
+
+.tag-false {
+  color: #8A6A00;
+  background: rgba(181, 139, 0, 0.14);
+}
+
+.tag-remote {
+  color: #07C160;
+  background: rgba(7, 193, 96, 0.1);
+}
+
+.tag-danger {
+  color: #E5484D;
+  background: rgba(229, 72, 77, 0.1);
+}
+
+/* ---------------- 按钮 ---------------- */
+.btn {
+  height: 88rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: #07C160;
+  color: #FFFFFF;
+}
+
+.btn-ghost {
+  background: #FFFFFF;
+  border: 2rpx solid #D9DDE3;
+  color: #181818;
+}
+
+.btn-soft {
+  background: #EDEFF2;
+  color: #5B6472;
+}
+
+.btn-danger {
+  background: #E5484D;
+  color: #FFFFFF;
+}
+
+.btn-hover {
+  opacity: 0.85;
+}
+
+/* ---------------- 胶囊 ---------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  background: #F2F4F6;
+  color: #5B6472;
+  font-size: 22rpx;
+  margin: 0 12rpx 12rpx 0;
+}
+
+.chip-value {
+  color: #181818;
+  font-weight: 600;
+  margin-left: 6rpx;
+}
+
+.pill {
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  background: #F2F4F6;
+  color: #5B6472;
+}
+
+.pill-on {
+  background: rgba(7, 193, 96, 0.12);
+  color: #07C160;
+}
+
+/* ---------------- 空态 ---------------- */
+.empty {
+  padding: 40rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #9AA1AB;
+}
+
+/* 卡片下方留白，避免悬浮急停按钮遮挡 */
+.page-bottom-space {
+  height: 140rpx;
+}

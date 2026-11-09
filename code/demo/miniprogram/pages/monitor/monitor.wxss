@@ -1,0 +1,304 @@
+/* pages/monitor/monitor.wxss —— Tab1 监控 */
+
+.monitor-page {
+  padding-bottom: 40rpx;
+}
+
+/* ---------------- 深绿 hero ---------------- */
+.hero {
+  background: linear-gradient(160deg, #0E3B2E 0%, #145C43 100%);
+  border-radius: 32rpx;
+  padding: 30rpx 28rpx 22rpx;
+  color: #FFFFFF;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 28rpx rgba(14, 59, 46, 0.18);
+}
+
+.hero-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.hero-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-eyebrow {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.hero-title {
+  display: flex;
+  align-items: baseline;
+  margin: 6rpx 0 8rpx;
+}
+
+.hero-title-label {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-right: 10rpx;
+}
+
+.hero-title-num {
+  font-size: 64rpx;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 1rpx;
+}
+
+.hero-sub {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-battery {
+  flex: none;
+  width: 168rpx;
+  text-align: right;
+}
+
+.hero-battery-value {
+  font-size: 48rpx;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.hero-battery-unit {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin-left: 2rpx;
+}
+
+.battery-shell {
+  position: relative;
+  width: 110rpx;
+  height: 32rpx;
+  margin: 10rpx 0 8rpx auto;
+  padding: 3rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.5);
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+}
+
+.battery-shell::after {
+  content: '';
+  position: absolute;
+  right: -8rpx;
+  top: 9rpx;
+  width: 5rpx;
+  height: 12rpx;
+  border-radius: 0 3rpx 3rpx 0;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.battery-core {
+  height: 100%;
+  border-radius: 3rpx;
+  background: #07C160;
+}
+
+.hero-battery-sub {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 22rpx;
+}
+
+.hero .chip {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hero .chip-value {
+  color: #FFFFFF;
+}
+
+/* ---------------- 进度 ---------------- */
+.progress-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: #6B7280;
+}
+
+/* ---------------- 航线 ---------------- */
+.route-wrap {
+  position: relative;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background-color: #FAFBFC;
+  background-image: linear-gradient(rgba(16, 24, 40, 0.05) 1rpx, transparent 1rpx),
+    linear-gradient(90deg, rgba(16, 24, 40, 0.05) 1rpx, transparent 1rpx);
+  background-size: 48rpx 48rpx;
+}
+
+.route-canvas {
+  width: 100%;
+  height: 340rpx;
+  display: block;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 30rpx;
+  font-size: 22rpx;
+  color: #6B7280;
+}
+
+.legend-line {
+  width: 28rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  margin-right: 10rpx;
+}
+
+.legend-done {
+  background: #07C160;
+}
+
+.legend-plan {
+  background: repeating-linear-gradient(90deg, #C3CBD4 0, #C3CBD4 6rpx, transparent 6rpx, transparent 12rpx);
+}
+
+.legend-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #07C160;
+  margin-right: 10rpx;
+  box-shadow: 0 0 0 4rpx rgba(7, 193, 96, 0.18);
+}
+
+/* ---------------- 最近结果 ---------------- */
+.result-row {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #EDEFF2;
+}
+
+.result-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.result-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.result-code {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #181818;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-sub {
+  font-size: 22rpx;
+  color: #6B7280;
+  margin-top: 4rpx;
+}
+
+.result-right {
+  flex: none;
+  margin-left: 16rpx;
+  text-align: right;
+}
+
+.result-conf {
+  font-size: 20rpx;
+  color: #6B7280;
+  margin-top: 8rpx;
+}
+
+/* ---------------- 待复核 ---------------- */
+.review-left {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16rpx;
+}
+
+.review-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-hover {
+  opacity: 0.9;
+}
+
+.review-count {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #181818;
+}
+
+.review-count .num {
+  font-size: 40rpx;
+  color: #E5484D;
+  margin-right: 4rpx;
+}
+
+.review-action {
+  flex: none;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #07C160;
+}
+
+/* ---------------- 底部操作 ---------------- */
+.action-row {
+  display: flex;
+  margin-top: 4rpx;
+}
+
+.action-gap {
+  margin-left: 20rpx;
+}
+
+/* ---------------- 悬浮急停 ---------------- */
+.estop-fab {
+  position: fixed;
+  right: 32rpx;
+  bottom: 48rpx;
+  z-index: 30;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  background: #E5484D;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 28rpx rgba(229, 72, 77, 0.42);
+}
+
+.estop-fab-hover {
+  opacity: 0.85;
+  transform: scale(0.96);
+}

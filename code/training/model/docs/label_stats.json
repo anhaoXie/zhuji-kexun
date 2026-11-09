@@ -1,0 +1,38 @@
+{
+  "Apple___Apple_scab": {
+    "id": 0,
+    "total": 630,
+    "ok": 630,
+    "fallback": 0,
+    "read_fail": 0,
+    "fallback_rate": 0.0,
+    "mean_box_ratio": 0.807
+  },
+  "Apple___Black_rot": {
+    "id": 1,
+    "total": 621,
+    "ok": 621,
+    "fallback": 0,
+    "read_fail": 0,
+    "fallback_rate": 0.0,
+    "mean_box_ratio": 0.8352
+  },
+  "Apple___Cedar_apple_rust": {
+    "id": 2,
+    "total": 275,
+    "ok": 275,
+    "fallback": 0,
+    "read_fail": 0,
+    "fallback_rate": 0.0,
+    "mean_box_ratio": 0.6669
+  },
+  "Apple___healthy": {
+    "id": 3,
+    "total": 1645,
+    "ok": 1645,
+    "fallback": 0,
+    "read_fail": 0,
+    "fallback_rate": 0.0,
+    "mean_box_ratio": 0.7407
+  }
+}

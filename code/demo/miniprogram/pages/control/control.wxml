@@ -1,0 +1,189 @@
+<!-- pages/control/control.wxml —— Tab2 控制 -->
+<view class="page control-page">
+
+  <!-- 实时遥测小卡 -->
+  <view class="card telemetry">
+    <view class="telemetry-item">
+      <view class="telemetry-label">链路</view>
+      <view class="telemetry-value num">{{latency}}<text class="telemetry-unit"> ms</text></view>
+    </view>
+    <view class="telemetry-item">
+      <view class="telemetry-label">电量</view>
+      <view class="telemetry-value num">{{battery}}<text class="telemetry-unit"> %</text></view>
+    </view>
+    <view class="telemetry-item">
+      <view class="telemetry-label">温度</view>
+      <view class="telemetry-value num">{{temp}}<text class="telemetry-unit"> ℃</text></view>
+    </view>
+  </view>
+
+  <!-- 模式切换 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">操控模式</view>
+      <view class="tag tag-{{modeTagClass}}">{{modeText}}</view>
+    </view>
+    <view class="segmented">
+      <view
+        class="segmented-item {{controlMode === 'patrol' ? 'is-active' : ''}}"
+        data-mode="patrol"
+        bindtap="onModeTap"
+      >巡检模式</view>
+      <view
+        class="segmented-item {{controlMode === 'remote' ? 'is-active' : ''}}"
+        data-mode="remote"
+        bindtap="onModeTap"
+      >远程模式</view>
+    </view>
+    <view class="tiny seg-note">远程模式下小程序可低速控车（≤0.8 m/s）；2.4G 遥控器始终最高优先级。</view>
+  </view>
+
+  <!-- 大摇杆 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">方向控制</view>
+      <view class="tiny">{{controlEnabled ? '拖动即下发 move，松手发 stop' : '仅远程模式可用'}}</view>
+    </view>
+    <view class="joystick-wrap">
+      <movable-area class="joystick-area" id="joystickArea">
+        <view class="joystick-cross-h"></view>
+        <view class="joystick-cross-v"></view>
+        <movable-view
+          class="joystick-knob"
+          direction="all"
+          x="{{knobX}}"
+          y="{{knobY}}"
+          damping="40"
+          friction="3"
+          disabled="{{!controlEnabled}}"
+          bindchange="onKnobChange"
+          bindtouchstart="onKnobStart"
+          bindtouchend="onKnobEnd"
+          bindtouchcancel="onKnobEnd"
+        >
+          <view class="joystick-knob-inner"></view>
+        </movable-view>
+      </movable-area>
+      <view class="joystick-lock" wx:if="{{!controlEnabled}}">
+        <text>{{mode === 'estop' ? '已急停 · 控制锁定' : '切换到远程模式后可操控'}}</text>
+      </view>
+    </view>
+    <view class="readout">
+      <text class="num">v={{vText}} m/s</text>
+      <text class="num">w={{wText}} rad/s</text>
+    </view>
+  </view>
+
+  <!-- 速度滑杆 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">速度上限</view>
+      <view class="card-value num">{{speedText}} m/s</view>
+    </view>
+    <slider
+      class="speed-slider"
+      min="0.1"
+      max="0.8"
+      step="0.05"
+      value="{{speed}}"
+      activeColor="#07C160"
+      backgroundColor="#EDEFF2"
+      block-size="20"
+      disabled="{{mode === 'estop'}}"
+      bindchanging="onSpeedChanging"
+      bindchange="onSpeedChange"
+    />
+    <view class="slider-scale">
+      <text>0.1</text>
+      <text>0.8 m/s</text>
+    </view>
+  </view>
+
+  <!-- 点动按钮（与摇杆二选一） -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">点动按钮</view>
+      <view class="tiny">按住生效，松手停车</view>
+    </view>
+    <view class="dpad">
+      <view
+        class="dpad-btn"
+        hover-class="btn-hover"
+        data-cmd="forward"
+        bindtouchstart="onCmdStart"
+        bindtouchend="onCmdEnd"
+        bindtouchcancel="onCmdEnd"
+      >前进</view>
+      <view class="dpad-row">
+        <view
+          class="dpad-btn"
+          hover-class="btn-hover"
+          data-cmd="left"
+          bindtouchstart="onCmdStart"
+          bindtouchend="onCmdEnd"
+          bindtouchcancel="onCmdEnd"
+        >左转</view>
+        <view class="dpad-btn dpad-stop" hover-class="btn-hover" bindtap="onStopTap">停止</view>
+        <view
+          class="dpad-btn"
+          hover-class="btn-hover"
+          data-cmd="right"
+          bindtouchstart="onCmdStart"
+          bindtouchend="onCmdEnd"
+          bindtouchcancel="onCmdEnd"
+        >右转</view>
+      </view>
+      <view
+        class="dpad-btn"
+        hover-class="btn-hover"
+        data-cmd="back"
+        bindtouchstart="onCmdStart"
+        bindtouchend="onCmdEnd"
+        bindtouchcancel="onCmdEnd"
+      >后退</view>
+    </view>
+  </view>
+
+  <!-- 图传开关 -->
+  <view class="card switch-card">
+    <view class="switch-left">
+      <view class="card-title">低码率图传监看</view>
+      <view class="tiny switch-note">{{videoEnabled ? '720p/15fps/1.2 Mbps，仅演示与远程接管' : '默认关闭；开启后仅传低码率画面'}}</view>
+    </view>
+    <switch checked="{{videoEnabled}}" color="#07C160" bindchange="onVideoSwitch" />
+  </view>
+
+  <!-- 安全卡 -->
+  <view class="card safety">
+    <view class="card-title">安全规则</view>
+    <view class="safety-row" wx:for="{{safety}}" wx:key="*this">
+      <view class="safety-dot"></view>
+      <text>{{item}}</text>
+    </view>
+    <view class="safety-note">小程序控车仅在远程模式开放；BLE 控车需真机（开发者工具不支持蓝牙）。</view>
+  </view>
+
+  <!-- BLE 骨架入口 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">近场 BLE 控车</view>
+      <view class="pill">{{bleSupported ? '真机可用' : '仅真机'}}</view>
+    </view>
+    <view class="tiny">BLE 走 ESP32-C3；服务 UUID、写入/通知特征值与 0x40 PCMD 帧编码待固件提供（utils/ble.js 已留 TODO）。</view>
+    <view class="btn btn-ghost ble-btn" hover-class="btn-hover" bindtap="onBleTap">BLE 连接（骨架）</view>
+  </view>
+
+  <!-- 底部急停 -->
+  <view
+    class="estop-btn {{mode === 'estop' ? 'is-locked' : ''}}"
+    hover-class="estop-hover"
+    bindtap="onEstopTap"
+    bindtouchstart="onEstopPressStart"
+    bindtouchend="onEstopPressEnd"
+    bindtouchcancel="onEstopPressEnd"
+  >
+    <text wx:if="{{mode !== 'estop'}}">急停</text>
+    <text wx:else>{{countdownText}}</text>
+  </view>
+  <view class="estop-hint">急停后所有控制禁用，需长按 2 秒复位；硬件急停按钮始终优先</view>
+</view>

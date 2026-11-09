@@ -1,0 +1,271 @@
+/* pages/video/video.wxss —— Tab3 图传 */
+
+.video-page {
+  padding-bottom: 32rpx;
+}
+
+.title-sub {
+  margin-top: 10rpx;
+  font-size: 23rpx;
+  color: #6B7280;
+  line-height: 1.55;
+}
+
+/* ---------------- 16:9 视频区 ---------------- */
+.stage {
+  position: relative;
+  width: 100%;
+  height: 395rpx; /* 702rpx 内容宽 × 9/16 */
+  border-radius: 28rpx;
+  overflow: hidden;
+  background: #0E3B2E;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(16, 24, 40, 0.08);
+}
+
+.stage-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.stage-shade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(4, 20, 14, 0.45) 0%,
+    rgba(4, 20, 14, 0) 26%,
+    rgba(4, 20, 14, 0) 60%,
+    rgba(4, 20, 14, 0.66) 100%
+  );
+}
+
+/* LIVE 标记 */
+.live-badge {
+  position: absolute;
+  left: 16rpx;
+  top: 16rpx;
+  display: flex;
+  align-items: center;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  background: rgba(4, 20, 14, 0.52);
+}
+
+.live-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #FF4D4F;
+  margin-right: 8rpx;
+  animation: live-blink 1.2s infinite;
+}
+
+@keyframes live-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.live-label {
+  font-size: 20rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 2rpx;
+  margin-right: 10rpx;
+}
+
+.live-meta {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+/* 时间戳 */
+.ts-badge {
+  position: absolute;
+  right: 16rpx;
+  top: 16rpx;
+  padding: 8rpx 12rpx;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background: rgba(4, 20, 14, 0.52);
+}
+
+/* 检测框（百分比绝对定位，坐标来自 /api/video/info 的 x/y/w/h） */
+.det-box {
+  position: absolute;
+  border: 2rpx solid #07C160;
+  border-radius: 8rpx;
+}
+
+.det-label {
+  position: absolute;
+  left: -2rpx;
+  top: -34rpx;
+  padding: 4rpx 10rpx;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+
+.det-review {
+  position: absolute;
+  right: -2rpx;
+  bottom: -30rpx;
+  padding: 2rpx 8rpx;
+  border-radius: 6rpx;
+  font-size: 18rpx;
+  color: #FFFFFF;
+  background: #F5A524;
+  white-space: nowrap;
+}
+
+/* 中心十字准星 */
+.crosshair-h {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44rpx;
+  height: 1rpx;
+  margin-left: -22rpx;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.crosshair-v {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1rpx;
+  height: 44rpx;
+  margin-top: -22rpx;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+/* 底部信息条 */
+.stage-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14rpx 16rpx;
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.92);
+  background: linear-gradient(180deg, rgba(4, 20, 14, 0) 0%, rgba(4, 20, 14, 0.7) 100%);
+}
+
+.stage-note {
+  position: absolute;
+  left: 16rpx;
+  bottom: 66rpx;
+  padding: 4rpx 10rpx;
+  border-radius: 6rpx;
+  font-size: 18rpx;
+  color: #FFE7A3;
+  background: rgba(4, 20, 14, 0.55);
+}
+
+/* ---------------- 操作条 ---------------- */
+.ops {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 8rpx;
+}
+
+.op {
+  flex: 1;
+  padding: 14rpx 0;
+  text-align: center;
+  border-right: 1rpx solid #EDEFF2;
+}
+
+.op:last-child {
+  border-right: none;
+}
+
+.op-hover {
+  opacity: 0.7;
+}
+
+.op-label {
+  display: inline-block;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  border: 2rpx solid #D9DDE3;
+  font-size: 22rpx;
+  color: #5B6472;
+}
+
+/* ---------------- 说明 ---------------- */
+.note-row {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 16rpx;
+}
+
+.note-index {
+  flex: none;
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 12rpx;
+  border-radius: 50%;
+  background: rgba(7, 193, 96, 0.12);
+  color: #07C160;
+  font-size: 20rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: #3F4753;
+  line-height: 1.55;
+}
+
+/* ---------------- 资质提示 ---------------- */
+.warn-card {
+  background: #FFF9EC;
+  border: 1rpx solid #F3DFB0;
+  box-shadow: none;
+}
+
+.warn-title {
+  color: #8A6A00;
+}
+
+.warn-text {
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: #7A6420;
+  line-height: 1.6;
+}
+
+/* ---------------- 图传源角标（K230 实拍 / 演示画面） ---------------- */
+.cam-src {
+  margin-left: auto;
+  margin-right: 14rpx;
+  padding: 0 12rpx;
+  height: 36rpx;
+  border-radius: 8rpx;
+  background: #F0F2F4;
+  color: #6B7280;
+  font-size: 18rpx;
+  line-height: 36rpx;
+}
+.cam-src.on {
+  background: rgba(7, 193, 96, 0.12);
+  color: #079A4C;
+}

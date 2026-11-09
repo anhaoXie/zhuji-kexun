@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/monitor/monitor",
+    "pages/control/control",
+    "pages/video/video",
+    "pages/report/report"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "株迹可循",
+    "backgroundColor": "#F4F5F7",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#8A8F99",
+    "selectedColor": "#07C160",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/monitor/monitor",
+        "text": "监控",
+        "iconPath": "assets/tabbar/monitor.png",
+        "selectedIconPath": "assets/tabbar/monitor-active.png"
+      },
+      {
+        "pagePath": "pages/control/control",
+        "text": "控制",
+        "iconPath": "assets/tabbar/control.png",
+        "selectedIconPath": "assets/tabbar/control-active.png"
+      },
+      {
+        "pagePath": "pages/video/video",
+        "text": "图传",
+        "iconPath": "assets/tabbar/video.png",
+        "selectedIconPath": "assets/tabbar/video-active.png"
+      },
+      {
+        "pagePath": "pages/report/report",
+        "text": "报表",
+        "iconPath": "assets/tabbar/report.png",
+        "selectedIconPath": "assets/tabbar/report-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

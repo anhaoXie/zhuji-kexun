@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=390, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>株迹可循 · 手机端</title>
+<script>
+/* 提前挂错误钩子：截图脚本会读 window.__CONSOLE_ERRORS__ 判断控制台是否干净 */
+window.__CONSOLE_ERRORS__ = [];
+(function () {
+  function push(msg) {
+    try { if (window.__CONSOLE_ERRORS__.length < 50) window.__CONSOLE_ERRORS__.push(String(msg)); } catch (e) {}
+  }
+  window.addEventListener('error', function (e) {
+    push((e.message || 'script error') + ' @ ' + (e.filename || '') + ':' + (e.lineno || 0));
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    var r = e && e.reason;
+    push('unhandledrejection: ' + (r && r.message ? r.message : String(r)));
+  });
+  var origError = console.error ? console.error.bind(console) : function () {};
+  console.error = function () {
+    push(Array.prototype.map.call(arguments, function (a) { return String(a); }).join(' '));
+    origError.apply(null, arguments);
+  };
+})();
+</script>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- 微信状态栏（静态装饰） -->
+  <div class="statusbar" aria-hidden="true">
+    <div class="sb-time">9:41</div>
+    <div class="sb-icons">
+      <svg class="sb-signal" width="18" height="12" viewBox="0 0 18 12">
+        <rect x="0" y="7.5" width="3" height="4.5" rx="1" fill="#181818"/>
+        <rect x="5" y="5.2" width="3" height="6.8" rx="1" fill="#181818"/>
+        <rect x="10" y="2.8" width="3" height="9.2" rx="1" fill="#181818"/>
+        <rect x="15" y="0.5" width="3" height="11.5" rx="1" fill="#181818"/>
+      </svg>
+      <svg class="sb-wifi" width="17" height="12" viewBox="0 0 17 12">
+        <path d="M1 4.2C3.1 2.2 5.5 1.2 8.5 1.2s5.4 1 7.5 3" stroke="#181818" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <path d="M3.6 7C5 5.7 6.6 5 8.5 5s3.5.7 4.9 2" stroke="#181818" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <circle cx="8.5" cy="10.2" r="1.5" fill="#181818"/>
+      </svg>
+      <svg class="sb-battery" width="25" height="12" viewBox="0 0 25 12">
+        <rect x="0.5" y="0.9" width="21" height="10.2" rx="3" fill="none" stroke="#181818" stroke-opacity=".38" stroke-width="1"/>
+        <rect x="2.2" y="2.6" width="15.5" height="6.8" rx="1.6" fill="#181818"/>
+        <path d="M23.2 4.1v3.8c1 -.3 1.5 -1 1.5 -1.9s-.5 -1.6 -1.5 -1.9z" fill="#181818" fill-opacity=".45"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 微信导航栏 -->
+  <header class="navbar">
+    <div class="nav-title">株迹可循</div>
+    <div class="capsule" aria-hidden="true">
+      <svg width="87" height="32" viewBox="0 0 87 32">
+        <rect x="0.5" y="0.5" width="86" height="31" rx="15.5" fill="rgba(255,255,255,.92)" stroke="rgba(0,0,0,.10)"/>
+        <circle cx="18" cy="16" r="2.1" fill="#181818"/>
+        <circle cx="27.5" cy="16" r="2.1" fill="#181818"/>
+        <circle cx="37" cy="16" r="2.1" fill="#181818"/>
+        <path d="M48 10.5v11" stroke="rgba(0,0,0,.12)" stroke-width="1"/>
+        <circle cx="63.5" cy="16" r="7.6" fill="none" stroke="#181818" stroke-width="1.9"/>
+        <circle cx="63.5" cy="16" r="2.1" fill="#181818"/>
+      </svg>
+    </div>
+  </header>
+
+  <main class="pages" id="pages">
+
+    <!-- ==================== TAB 1 监控 ==================== -->
+    <section class="page page-monitor" data-page="monitor" aria-label="监控">
+      <div class="hero">
+        <div class="hero-top">
+          <div class="hero-left">
+            <div class="hero-line"><span class="live-dot"></span><span id="heroMode">1号棚 · 巡检中</span></div>
+            <div class="hero-big" id="heroStop">台位 7/16</div>
+            <div class="hero-sub" id="heroSub">已检 42/64 株 · 预计 1 分 40 秒完成</div>
+          </div>
+          <div class="hero-right">
+            <div class="battery-ring">
+              <svg viewBox="0 0 60 60" width="56" height="56">
+                <circle cx="30" cy="30" r="25" stroke="rgba(255,255,255,.16)" stroke-width="5" fill="none"/>
+                <circle id="heroRing" cx="30" cy="30" r="25" stroke="#4CE0A0" stroke-width="5" fill="none"
+                        stroke-linecap="round" stroke-dasharray="157.08" stroke-dashoffset="34.56"
+                        transform="rotate(-90 30 30)"/>
+              </svg>
+              <span class="ring-text" id="heroBattery">78%</span>
+            </div>
+            <div class="hero-volt" id="heroVolt">11.6 V · 33 Wh</div>
+          </div>
+        </div>
+        <div class="hero-chips">
+          <div class="chip"><div class="chip-k">速度</div><div class="chip-v" id="chipSpeed">0.5 m/s</div></div>
+          <div class="chip"><div class="chip-k">WiFi</div><div class="chip-v" id="chipRssi">-52 dBm</div></div>
+          <div class="chip"><div class="chip-k">里程</div><div class="chip-v" id="chipDist">18.6 m</div></div>
+          <div class="chip"><div class="chip-k">已检出</div><div class="chip-v" id="chipDetected">6 株</div></div>
+        </div>
+      </div>
+
+      <div class="card progress-card">
+        <div class="row-between">
+          <span class="card-title">本棚进度</span>
+          <span class="progress-val" id="progressText">66%（42/64）</span>
+        </div>
+        <div class="track"><i id="progressFill" style="width:66%"></i></div>
+        <div class="progress-sub" id="progressSub">B2-03 · 第 7/16 台位</div>
+      </div>
+
+      <div class="card map-card">
+        <div class="card-head">
+          <span class="card-title">实时航线</span>
+          <span class="head-note">S 形折返 · 20 个停靠位</span>
+        </div>
+        <svg class="route-svg" viewBox="0 0 342 108" preserveAspectRatio="xMidYMid meet" role="img" aria-label="巡检航线俯视图">
+          <defs>
+            <radialGradient id="curGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#07C160" stop-opacity=".28"/>
+              <stop offset="100%" stop-color="#07C160" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <g id="bedLayer">
+            <rect x="18" y="13" width="306" height="12" rx="4" fill="#EAF4EE" stroke="#D3E7DA"/>
+            <rect x="18" y="35" width="306" height="12" rx="4" fill="#EAF4EE" stroke="#D3E7DA"/>
+            <rect x="18" y="57" width="306" height="12" rx="4" fill="#EAF4EE" stroke="#D3E7DA"/>
+            <rect x="18" y="79" width="306" height="12" rx="4" fill="#EAF4EE" stroke="#D3E7DA"/>
+          </g>
+          <g id="stationLayer"></g>
+          <g id="stopLayer"></g>
+          <path d="M24 6H318V28H24V50H318V72H24V94H318" fill="none" stroke="#C6CFD7"
+                stroke-width="1.3" stroke-dasharray="4 3" stroke-linecap="round"/>
+          <path id="routeDone" d="" fill="none" stroke="#07C160" stroke-width="2.6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <g id="curGroup" style="display:none">
+            <circle id="curHalo" r="8" fill="url(#curGlow)"/>
+            <path id="curArrow" d="M0 -8.5 L4 -1.5 L-4 -1.5 Z" fill="#07C160" opacity=".9"/>
+            <circle id="curDot" r="3.8" fill="#07C160" stroke="#FFFFFF" stroke-width="1.6"/>
+          </g>
+          <g font-size="6.5" fill="#9AA3AD" font-family="inherit">
+            <text x="328" y="22.5">B1</text>
+            <text x="328" y="44.5">B2</text>
+            <text x="328" y="66.5">B3</text>
+            <text x="328" y="88.5">B4</text>
+          </g>
+        </svg>
+        <div class="legend">
+          <span class="lg"><i class="lg-line lg-done"></i>已走</span>
+          <span class="lg"><i class="lg-line lg-plan"></i>规划</span>
+          <span class="lg"><i class="lg-dot"></i>当前</span>
+          <span class="lg-meta" id="mapMeta">停靠位 7/20</span>
+        </div>
+      </div>
+
+      <div class="card recent-card">
+        <div class="card-head">
+          <span class="card-title">最近结果</span>
+          <button class="head-link" id="recentAll">全部 ›</button>
+        </div>
+        <div class="recent-list" id="recentList"></div>
+      </div>
+
+      <div class="card review-bar">
+        <span class="rb-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5A524" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.2 21 19.2H3z"/><path d="M12 9.2v4.3"/><circle cx="12" cy="16.6" r=".9" fill="#F5A524" stroke="none"/>
+          </svg>
+        </span>
+        <span class="rb-main"><b id="reviewCount">3 株待复核</b><i>低置信，需人工判定</i></span>
+        <button class="rb-link" id="gotoReview">去处理 <span>›</span></button>
+      </div>
+
+      <div class="monitor-actions">
+        <button class="btn btn-outline" id="pauseBtn">暂停巡检</button>
+        <button class="btn btn-soft" id="returnBtn">返航</button>
+        <button class="estop-fab" id="estopFab" aria-label="急停">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <path d="M12 3v8"/><path d="M6.2 6.5a8 8 0 1 0 11.6 0"/>
+          </svg>
+          <span>急停</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2 控制 ==================== -->
+    <section class="page page-control" data-page="control" aria-label="控制">
+      <div class="ctrl-top">
+        <div class="segmented" id="modeSeg" role="tablist" aria-label="控制模式">
+          <button class="seg-item active" data-mode="patrol">巡检模式</button>
+          <button class="seg-item" data-mode="remote">远程模式</button>
+        </div>
+        <div class="telemetry">
+          <div class="tm-row"><span class="tm-k">链路</span><span class="tm-v" id="tmLink">28 ms</span></div>
+          <div class="tm-row"><span class="tm-k">电量</span><span class="tm-v" id="tmBatt">78%</span><span class="tm-k tm-gap">温度</span><span class="tm-v" id="tmTemp">32 ℃</span></div>
+        </div>
+      </div>
+
+      <div class="card joy-card" id="joyCard">
+        <div class="card-head">
+          <span class="card-title">手动控车 <span class="mode-tag" id="joyModeTag">巡检锁定</span></span>
+          <div class="seg-tiny" id="joyModeSeg">
+            <button class="active" data-jmode="joy">摇杆</button>
+            <button data-jmode="btn">按键</button>
+          </div>
+        </div>
+        <div class="joy-stage">
+          <div class="joystick is-locked" id="joystick">
+            <span class="joy-tick tick-n"></span>
+            <span class="joy-tick tick-e"></span>
+            <span class="joy-tick tick-s"></span>
+            <span class="joy-tick tick-w"></span>
+            <span class="joy-axis axis-h"></span>
+            <span class="joy-axis axis-v"></span>
+            <div class="joy-knob" id="joyKnob"><i></i></div>
+            <span class="joy-hint" id="joyHint">远程模式可操控</span>
+          </div>
+          <div class="joy-readout-row">
+            <div class="joy-readout" id="joyReadout">v=0.00 m/s&nbsp;&nbsp;w=0.00 rad/s</div>
+            <button class="stop-sm" id="stopBtn">停止</button>
+          </div>
+          <div class="joy-tip">拖动发送 v/w · 松手自动停车 · 2.4G 遥控器可随时接管</div>
+        </div>
+        <div class="dirpad" id="dirpad" hidden>
+          <button class="dbtn dbtn-up" data-cmd="fwd">前</button>
+          <button class="dbtn dbtn-left" data-cmd="left">左</button>
+          <button class="dbtn dbtn-stop" data-cmd="stop">停</button>
+          <button class="dbtn dbtn-right" data-cmd="right">右</button>
+          <button class="dbtn dbtn-down" data-cmd="back">后</button>
+        </div>
+      </div>
+
+      <div class="card speed-card">
+        <div class="row-between">
+          <span class="card-title">速度上限</span>
+          <span class="speed-val" id="speedVal">0.30 m/s</span>
+        </div>
+        <div class="range-wrap">
+          <span class="range-min">0.1</span>
+          <input type="range" id="speedRange" min="0.1" max="0.8" step="0.05" value="0.3" aria-label="速度上限">
+          <span class="range-max">0.8</span>
+        </div>
+      </div>
+
+      <div class="card safe-card">
+        <span class="safe-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#07C160" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.8 20 6v6.1c0 4.4-3.3 7.6-8 9.1-4.7-1.5-8-4.7-8-9.1V6z"/>
+            <path d="m8.6 12.1 2.3 2.3 4.5-4.5"/>
+          </svg>
+        </span>
+        <div class="safe-list">
+          <div class="safe-line">2.4G 遥控器优先</div>
+          <div class="safe-line">失联 500 ms 停车</div>
+          <div class="safe-line">急停硬件优先</div>
+        </div>
+      </div>
+
+      <div class="card switch-card">
+        <div class="sw-left">
+          <div class="sw-title">低码率图传监看</div>
+          <div class="sw-sub" id="videoHint">默认关闭，开启后仅传低码率画面</div>
+        </div>
+        <button class="switch" id="videoToggle" role="switch" aria-checked="false" aria-label="低码率图传监看"><i></i></button>
+      </div>
+
+      <div class="ctrl-actions">
+        <button class="btn btn-estop" id="estopBtn"><span class="estop-label">急停</span><span class="estop-sub">切断动力，立即停车</span></button>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3 图传 ==================== -->
+    <section class="page page-video" data-page="video" aria-label="图传">
+      <div class="card video-head">
+        <div class="vh-row">
+          <span class="vh-title">车端图传</span>
+          <span class="vh-badge" id="videoBadge">默认关闭</span>
+          <span class="vh-badge vh-badge-src" id="camSource" title="图传源：K230 实拍 / 演示画面">演示画面</span>
+        </div>
+        <div class="vh-sub">识别在车端 K230 完成，不上传原始视频；本页为低码率监看，仅用于演示与远程接管</div>
+      </div>
+
+      <div class="video-frame" id="videoFrame">
+        <img class="cam-img" id="camImg" src="../assets/cam_plant.jpg" alt="车端俯视相机画面">
+        <svg class="cam-fallback" viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="fbg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#20302A"/><stop offset="1" stop-color="#0E241C"/>
+            </linearGradient>
+          </defs>
+          <rect width="1280" height="720" fill="url(#fbg)"/>
+          <g fill="#2F6B50" opacity=".9">
+            <ellipse cx="520" cy="470" rx="250" ry="110" transform="rotate(-18 520 470)"/>
+            <ellipse cx="700" cy="540" rx="210" ry="96" transform="rotate(14 700 540)"/>
+            <ellipse cx="420" cy="560" rx="160" ry="80" transform="rotate(8 420 560)"/>
+          </g>
+          <g fill="#3E8A65" opacity=".75">
+            <ellipse cx="560" cy="455" rx="150" ry="60" transform="rotate(-18 560 455)"/>
+            <ellipse cx="720" cy="530" rx="120" ry="54" transform="rotate(14 720 530)"/>
+          </g>
+          <text x="640" y="350" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="34" font-family="inherit">车端画面占位</text>
+        </svg>
+        <div class="cam-overlay" id="camOverlay">
+          <div class="cam-top">
+            <span class="live-tag"><i></i>LIVE</span>
+            <span class="stream-tag" id="streamTag">720p 15fps 1.2 Mbps</span>
+            <span class="cam-ts" id="camTs">2026-11-04 09:24:31</span>
+          </div>
+          <div class="bbox-layer" id="bboxLayer"></div>
+          <div class="crosshair"><i class="ch-h"></i><i class="ch-v"></i></div>
+          <div class="cam-info" id="camInfo">云台 俯仰 78° · 台位 B2-03 · 株 2-1</div>
+        </div>
+      </div>
+
+      <div class="cam-actions" id="camActions">
+        <button class="cam-act" data-act="截图">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5h3l1.4-2h7.2l1.4 2h3v11H4z"/><circle cx="12" cy="12.6" r="3.2"/></svg>
+          <span>截图</span>
+        </button>
+        <button class="cam-act" data-act="录制">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.4" fill="currentColor" stroke="none"/></svg>
+          <span>录制</span>
+        </button>
+        <button class="cam-act" data-act="云台 −">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+          <span>云台 −</span>
+        </button>
+        <button class="cam-act" data-act="云台 +">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>
+          <span>云台 +</span>
+        </button>
+        <button class="cam-act" data-act="全屏">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          <span>全屏</span>
+        </button>
+      </div>
+
+      <div class="card detect-card">
+        <div class="card-head"><span class="card-title">本帧检测</span><span class="head-note" id="detectNote">2 个目标</span></div>
+        <div class="detect-list" id="detectList"></div>
+      </div>
+
+      <div class="card preset-card">
+        <div class="card-head">
+          <span class="card-title">云台预设</span>
+          <span class="head-note">当前俯仰 <b id="presetPitch">78</b>°</span>
+        </div>
+        <div class="preset-row" id="presetRow">
+          <button class="preset active" data-pitch="78">俯视 78°</button>
+          <button class="preset" data-pitch="30">斜视 30°</button>
+          <button class="preset" data-pitch="0">复位 0°</button>
+        </div>
+      </div>
+
+      <div class="card meta-card">
+        <div class="card-head"><span class="card-title">相机与链路</span><span class="head-note">K230 · UART2</span></div>
+        <div class="meta-grid">
+          <div class="meta-item"><span class="meta-k">相机</span><span class="meta-v" id="metaCamera">K230 · 顶视</span></div>
+          <div class="meta-item"><span class="meta-k">分辨率</span><span class="meta-v" id="metaRes">1280×720</span></div>
+          <div class="meta-item"><span class="meta-k">帧率</span><span class="meta-v" id="metaFps">15 fps</span></div>
+          <div class="meta-item"><span class="meta-k">云台俯仰</span><span class="meta-v" id="metaPitch">78°</span></div>
+        </div>
+      </div>
+
+      <div class="card note-card">
+        <div class="card-head"><span class="card-title">图传说明</span></div>
+        <ol class="note-list">
+          <li>默认关闭，开启后仅传低码率画面</li>
+          <li>识别与判定在车端完成，不依赖视频流</li>
+          <li>断网自动停传，恢复后可重连</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4 报表 ==================== -->
+    <section class="page page-report" data-page="report" aria-label="报表">
+      <div class="card batch-card">
+        <div class="batch-left">
+          <div class="batch-title">1号棚 <span class="batch-done" id="batchStatus">已完成</span></div>
+          <div class="batch-time" id="batchTime">2026-11-04 09:20—09:26</div>
+        </div>
+        <button class="batch-pick" id="batchPick">B-20261104-01
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+
+      <div class="card kpi-card">
+        <div class="kpi-grid" id="kpiGrid"></div>
+        <div class="kpi-sub">
+          <span>有结论率 <b id="conclusionRate">84.4%</b></span>
+          <i class="dot-sep"></i>
+          <span>建议采纳 <b id="suggestAdopted">6/9</b></span>
+        </div>
+      </div>
+
+      <div class="card states-card">
+        <div class="card-head"><span class="card-title">六状态分布</span><span class="head-note" id="statesNote">共 9 株</span></div>
+        <div class="states-list" id="statesList"></div>
+      </div>
+
+      <div class="card records-card">
+        <div class="card-head"><span class="card-title">病害记录</span><span class="head-note" id="recordsNote">共 3 条</span></div>
+        <div class="records-list" id="recordsList"></div>
+      </div>
+
+      <div class="card review-card" id="reviewCard">
+        <div class="card-head"><span class="card-title">待复核</span><span class="head-note" id="reviewNote">共 3 条 · 低置信</span></div>
+        <div class="review-list" id="reviewList"></div>
+      </div>
+
+      <div class="report-actions">
+        <div class="export-row">
+          <button class="btn btn-outline" id="exportCsv">导出 CSV</button>
+          <button class="btn btn-primary" id="exportPdf">生成 PDF 报表</button>
+        </div>
+        <div class="report-footer" id="reportFooter">判定规则/阈值/模型版本随批次归档 · 批次 B-20261104-01</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 底部 tabbar -->
+  <nav class="tabbar" role="tablist" aria-label="主导航">
+    <button class="tab-item active" data-tab="monitor" role="tab" aria-selected="true">
+      <svg class="tab-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2.8 13h3.4l2.4-6.2 3.3 9.6 2.3-5.4h6.8"/>
+      </svg>
+      <span>监控</span>
+    </button>
+    <button class="tab-item" data-tab="control" role="tab" aria-selected="false">
+      <svg class="tab-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7.3 7.5h9.4c2.6 0 4.1 2.1 4.1 4.6 0 2.5-1.3 4.4-3.2 4.4-1.3 0-2.2-.7-3-1.8l-.7-1h-3.8l-.7 1c-.8 1.1-1.7 1.8-3 1.8-1.9 0-3.2-1.9-3.2-4.4 0-2.5 1.5-4.6 4.1-4.6z"/>
+        <path d="M7.7 10.6v3.2M6.1 12.2h3.2"/>
+        <circle cx="16.4" cy="11.2" r=".9" fill="currentColor" stroke="none"/>
+        <circle cx="18.6" cy="13.4" r=".9" fill="currentColor" stroke="none"/>
+      </svg>
+      <span>控制</span>
+    </button>
+    <button class="tab-item" data-tab="video" role="tab" aria-selected="false">
+      <svg class="tab-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2.8" y="6.6" width="12.6" height="10.8" rx="2.4"/>
+        <path d="m15.4 10.5 5.8-2.9v8.8l-5.8-2.9z"/>
+      </svg>
+      <span>图传</span>
+    </button>
+    <button class="tab-item" data-tab="report" role="tab" aria-selected="false">
+      <svg class="tab-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 20V11.5M10 20V4.5M16 20v-6.5M22 20H2"/>
+      </svg>
+      <span>报表</span>
+    </button>
+  </nav>
+  <div class="home-bar" aria-hidden="true"></div>
+</div>
+
+<!-- 确认弹窗 -->
+<div class="modal-mask" id="modalMask" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-cancel" id="modalCancel">取消</button>
+      <button class="modal-btn modal-confirm" id="modalConfirm">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/app.js"></script>
+<script src="js/camera_live.js"></script>
+</body>
+</html>

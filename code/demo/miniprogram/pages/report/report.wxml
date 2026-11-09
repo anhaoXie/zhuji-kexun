@@ -1,0 +1,92 @@
+<!-- pages/report/report.wxml —— Tab4 报表 -->
+<view class="page report-page">
+
+  <!-- 批次选择 -->
+  <view class="card batch-card">
+    <view class="batch-left">
+      <view class="batch-title">{{batch.greenhouse}} · {{batch.time}}</view>
+      <view class="batch-sub">批次状态：{{batch.status === 'done' ? '已完成' : '进行中'}} · 判定规则/阈值/模型版本随批次归档</view>
+    </view>
+    <view class="batch-picker" bindtap="onBatchTap">{{batchId}} ▾</view>
+  </view>
+
+  <!-- KPI 2×2 -->
+  <view class="card">
+    <view class="kpi-grid">
+      <view class="kpi-cell" wx:for="{{kpis}}" wx:key="key">
+        <view class="kpi-label">{{item.label}}</view>
+        <view class="kpi-value num">{{item.value}}<text class="kpi-unit">{{item.unit}}</text></view>
+      </view>
+    </view>
+    <view class="kpi-sub">
+      <text>有结论率 {{sub.conclusion_rate}}</text>
+      <text class="dot-sep">·</text>
+      <text>建议采纳 {{sub.suggest_adopted}}</text>
+    </view>
+  </view>
+
+  <!-- 六状态分布 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">六状态分布</view>
+      <view class="tiny">共 {{stateTotal}} 例</view>
+    </view>
+    <view class="state-row" wx:for="{{states}}" wx:key="key">
+      <view class="state-label">{{item.label}}</view>
+      <view class="state-track">
+        <view class="state-fill" style="width: {{item.barPct}}%; background: {{item.color}};"></view>
+      </view>
+      <view class="state-count num">{{item.count}}</view>
+    </view>
+  </view>
+
+  <!-- 病害记录 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">病害记录</view>
+      <view class="tiny">最近 3 条</view>
+    </view>
+    <view class="record-row" wx:for="{{records}}" wx:key="code">
+      <view class="record-main">
+        <view class="record-code">{{item.code}}</view>
+        <view class="record-advice">建议：{{item.advice}}</view>
+      </view>
+      <view class="record-right">
+        <view class="tag tag-{{item.stateClass}}">{{item.state}}</view>
+        <view class="record-conf num">{{item.confText}}</view>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{records.length === 0}}">暂无病害记录</view>
+  </view>
+
+  <!-- 待复核：确认 / 改判 -->
+  <view class="card">
+    <view class="card-head">
+      <view class="card-title">待复核</view>
+      <view class="tiny">{{review.length}} 条低置信结果</view>
+    </view>
+    <view class="review-row" wx:for="{{review}}" wx:key="key">
+      <view class="record-main">
+        <view class="record-code">{{item.code}}</view>
+        <view class="record-advice">{{item.disease}} · 置信度 <text class="num">{{item.confText}}</text></view>
+      </view>
+      <view class="review-btns">
+        <view wx:if="{{item.reviewed}}" class="review-done">{{item.doneText}}</view>
+        <block wx:else>
+          <view class="mini-btn mini-primary" hover-class="btn-hover" data-index="{{index}}" bindtap="onConfirmTap">确认</view>
+          <view class="mini-btn" hover-class="btn-hover" data-index="{{index}}" bindtap="onRejudgeTap">改判</view>
+        </block>
+      </view>
+    </view>
+    <view class="empty" wx:if="{{review.length === 0}}">暂无待复核记录</view>
+  </view>
+
+  <!-- 导出 -->
+  <view class="export-row">
+    <view class="btn btn-ghost flex1" hover-class="btn-hover" bindtap="onExportCsv">导出 CSV</view>
+    <view class="btn btn-primary flex1 export-gap" hover-class="btn-hover" bindtap="onExportPdf">生成 PDF 报表</view>
+  </view>
+
+  <view class="footer-text">{{footer}}</view>
+  <view class="page-bottom-space"></view>
+</view>
