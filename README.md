@@ -1,16 +1,18 @@
 <div align="center">
 
-# 株迹可循 · PlantTrace
+<h1>株迹可循 · PlantTrace</h1>
 
-### 面向「一株一档」的温室巡检与病害追溯智能机器小车
+<h3>面向「一株一档」的温室巡检与病害追溯智能机器小车</h3>
 
-**给每一株苗一个固定编号 —— 让每一次巡检，都能回到同一株。**
+<p><strong>给每一株苗一个固定编号 —— 让每一次巡检，都能回到同一株。</strong></p>
 
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](code/demo/server)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-F7DF1E?logo=javascript&logoColor=black)](code/demo/web)
-[![Platform](https://img.shields.io/badge/Edge-K230%20%7C%20STM32%20%7C%20ESP32--C3-2F6F4E)](docs/02-system-architecture.md)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Prototype-orange)](#边界与不适用)
+<p>
+  <a href="code/demo/server"><img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python"></a>
+  <a href="code/demo/web"><img src="https://img.shields.io/badge/JavaScript-ES2020-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript"></a>
+  <a href="docs/02-system-architecture.md"><img src="https://img.shields.io/badge/Edge-K230%20%7C%20STM32%20%7C%20ESP32--C3-2F6F4E" alt="Platform"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"></a>
+  <img src="https://img.shields.io/badge/Status-Prototype-orange" alt="Status">
+</p>
 
 <img src="docs/figures/fig11_mobile_ui.png" width="720" alt="手机端界面：实时监控与批次报表">
 
