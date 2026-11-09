@@ -27,6 +27,7 @@
 
 - [09 市场与产业化](09-market-and-business.md)
 - [10 团队与分工](10-team-and-roles.md)
+- [13 选题与方向调研](13-research-and-selection.md) — 五方向比较、证据分级、关键判断的修正
 - [参考文献](references.md)
 
 ## 图片清单
