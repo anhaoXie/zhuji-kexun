@@ -24,6 +24,8 @@
 > 负责总体方案设计、技术路线、系统集成与整机联调；本仓库由项目负责人整理并发布。
 > 团队成员与分工见 [docs/10-team-and-roles.md](docs/10-team-and-roles.md)（仅公开角色，不公开个人信息）。
 
+> **最新进展（2026-11-15）**：参赛材料定稿（申报书 / 研究报告 / 佐证材料汇编）；公开数据完整基线复现（YOLO11n，640 px，207 轮早停）；增城种植园实地记录；软件著作权登记材料已备全、正在完成实名认证审核，实用新型专利正在办理前置备案。详见 [增城实地记录](docs/14-field-validation-2026-11.md) 与 [完整基线](code/training/bokchoy-640-full/)。
+
 ## 目录
 
 - [1. 这个项目解决什么问题](#1-这个项目解决什么问题)
@@ -177,7 +179,7 @@ flowchart LR
 ├─ README.md                     # 本文件
 ├─ LICENSE                       # MIT
 ├─ THIRD_PARTY_NOTICES.md        # 第三方组件与数据许可
-├─ docs/                         # 设计与评测文档（14 篇）
+├─ docs/                         # 设计与评测文档（15 篇，含参考文献）
 │  ├─ 01-overview.md             # 项目概述与问题定义
 │  ├─ 02-system-architecture.md  # 整机与软件架构
 │  ├─ 03-plant-level-record.md   # 一株一档、五级株位码、三层定位
@@ -190,6 +192,8 @@ flowchart LR
 │  ├─ 10-team-and-roles.md       # 团队分工（脱敏）
 │  ├─ 11-boundaries-and-compliance.md
 │  ├─ 12-roadmap-and-history.md
+│  ├─ 13-research-and-selection.md
+│  ├─ 14-field-validation-2026-11.md  # 增城种植园实地记录（2026-11）
 │  ├─ references.md
 │  └─ figures/                   # 设计图（图 1—图 12）
 ├─ code/
@@ -197,7 +201,8 @@ flowchart LR
 │  ├─ training/
 │  │  ├─ model/                  # 前期 EI 论文算法复现代码（AICM + YOLO11n）
 │  │  ├─ datasets/               # 公开数据集下载、清洗、重划分脚本
-│  │  └─ bokchoy-baseline/       # 公开数据基线训练产出（曲线 + 结果）
+│  │  ├─ bokchoy-baseline/       # 公开数据基线：快速链路验证（320 px / 8 epoch，CPU）
+│  │  └─ bokchoy-640-full/       # 公开数据基线：完整训练（640 px / 207 epoch 早停）
 │  └─ samples/                   # 16 张测试样例 + 真实推理画框结果
 └─ .gitignore
 ```
@@ -264,6 +269,7 @@ python prepare_bokchoy.py    # 按原图基名分组，重划 70/15/15，避免�
 | [11 边界与合规](docs/11-boundaries-and-compliance.md) | 不适用场景、安全约束、数据与伦理 |
 | [12 研发历程](docs/12-roadmap-and-history.md) | 里程碑、版本演进、后续计划 |
 | [13 选题与方向调研](docs/13-research-and-selection.md) | 五方向比较、证据分级、为什么选「一株一档」 |
+| [14 增城实地记录](docs/14-field-validation-2026-11.md) | 2026-11 场地、作物与成像条件踏勘（不作精度结论） |
 | [参考文献](docs/references.md) | 9 篇核心文献与数据集许可 |
 
 ## 9. 数据与模型口径
@@ -273,7 +279,7 @@ python prepare_bokchoy.py    # 按原图基名分组，重划 70/15/15，避免�
 | 层级 | 内容 | 可复现性 |
 |---|---|---|
 | **作品验收指标** | 2 棚 × ≥50 株 × 3 日期的按株检测、六状态一致率、找回率等 | 原始测试记录随项目材料归档，不在本仓库重复分发 |
-| **公开数据基线** | Bok Choy 数据集 1,965 张（2 类），按原图分组重划 1,402/286/277；YOLO11n 320 px / 8 epochs / CPU | ✅ 本仓库提供全部脚本、曲线与 `results.csv`；权重文件不含在内，按脚本可复现 |
+| **公开数据基线** | Bok Choy 数据集 1,965 张（2 类），按原图分组重划 1,402/286/277；两档训练：320 px / 8 epoch（CPU 快速验证）与 640 px / 207 epoch（完整基线，mAP@50 0.661） | ✅ 本仓库提供全部脚本、超参、曲线与 `results.csv`；权重文件不含在内，按 `args.yaml` 可复现 |
 | **K230 板端** | int8 kmodel 上板推理，验证「导出—量化—上板」链路 | ✅ kmodel 与推理脚本在仓库内；板端置信度受量化影响，不作为精度依据 |
 
 **数据泄漏的处理**：Bok Choy 公开集 1,965 张只来自 480 张原图（4× 增强），Roboflow 原始划分中有 331/480 组（69%）的增强副本同时出现在 train 与 test。本仓库按「原图基名」分组重划，保证同一原图的所有增强只落在一个 split——这也是作品中「按日期划分 vs 随机划分」论证的工程化体现。
@@ -313,6 +319,7 @@ python prepare_bokchoy.py    # 按原图基名分组，重划 70/15/15，避免�
 | 整机联调 | 2026-09 | 逐台位停靠拍照、同一台位重复停靠 10 次流程验证；2026-09-18 外场功能演示 |
 | 数据与软件 | 2026-10 | 数据集管线、六状态规则、PC/手机端演示、K230 图传与板端推理 |
 | 开源整理 | 2026-11 | 代码与文档脱敏、仓库结构整理、公开基线复现 |
+| 交付与落地 | 2026-11-15 | 参赛材料定稿（申报书 / 研究报告 / 佐证材料汇编）；完整基线复现（640 px / 207 epoch）；增城种植园实地记录；软件著作权登记材料备全、待实名审核，实用新型专利办理前置备案 |
 
 <div align="center">
 <img src="docs/figures/fig9_field_demo.png" width="760" alt="外场功能演示">

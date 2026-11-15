@@ -28,6 +28,7 @@
 - [09 市场与产业化](09-market-and-business.md)
 - [10 团队与分工](10-team-and-roles.md)
 - [13 选题与方向调研](13-research-and-selection.md) — 五方向比较、证据分级、关键判断的修正
+- [14 增城实地记录](14-field-validation-2026-11.md) — 2026-11 场地、作物与成像条件（不作精度结论）
 - [参考文献](references.md)
 
 ## 图片清单
@@ -48,3 +49,8 @@
 | `figures/fig11_mobile_ui.png` | 图 11 手机端界面 |
 | `figures/fig12_pc_console.png` | 图 12 PC 棚务台 |
 | `figures/ui_mobile_4screens.png` | 手机端四屏合成 |
+| `figures/field-2026-11/field_2026-11_pepper_beds.jpg` | 图 14-1 露地辣椒种植区（地膜覆盖） |
+| `figures/field-2026-11/field_2026-11_pepper_closeup.jpg` | 图 14-2 辣椒植株与果实近景 |
+| `figures/field-2026-11/field_2026-11_leafy_beds.jpg` | 图 14-3 叶菜苗床（密植） |
+| `figures/field-2026-11/field_2026-11_seedling_bed.jpg` | 图 14-4 苗床幼苗与滴灌带 |
+| `figures/field-2026-11/field_2026-11_eggplant_trellis.jpg` | 图 14-5 茄子搭架种植区 |

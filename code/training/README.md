@@ -62,3 +62,5 @@ YOLO11n / 320 px / 8 epochs / CPU，验证集（286 张）：
 - 训练脚本依赖 **Ultralytics（AGPL-3.0）**，使用与再分发须遵守其许可；
 - 公开数据集为 **CC BY 4.0**，需注明来源与修改；
 - 详见 [`../../THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md)。
+
+- `bokchoy-640-full/`：640 px / 207 epoch 完整基线（与 `bokchoy-baseline/` 的 320 px / 8 epoch 对比见 `docs/07-metrics.md` 第 4 节）。

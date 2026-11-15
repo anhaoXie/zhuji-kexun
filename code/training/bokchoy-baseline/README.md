@@ -52,3 +52,7 @@ Python 3.12 + ultralytics（AGPL-3.0）+ PyTorch + OpenCV + Pillow + PyYAML。
 - 320 px + 8 epochs + CPU 的配置刻意压低，目的是快速验证链路；
 - 正式训练建议 640 px、30—50 epochs、GPU；
 - 建议做「按原图分组 vs 随机划分」的对照，正好支撑数据泄漏的论证。
+
+## 5. 完整基线（640 px / 207 epoch）
+
+本目录是 320 px / 8 epoch 的快速链路验证。正常配置的完整训练见 [`../bokchoy-640-full/`](../bokchoy-640-full/)：640 px、请求 500 轮、patience=100 早停于第 207 轮，最优轮（epoch 95）mAP@50 = 0.661、mAP@50-95 = 0.377。两档对比见 [`docs/07-metrics.md`](../../../docs/07-metrics.md) 第 4 节。
